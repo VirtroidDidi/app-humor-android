@@ -70,21 +70,15 @@ class NotificationWorker(
             applicationContext, 0, intent, PendingIntent.FLAG_IMMUTABLE
         )
 
-        // ===================================
-        // CÓDIGO ATUALIZADO
-        // ===================================
         val builder = NotificationCompat.Builder(applicationContext, "HUMOR_CHANNEL_ID")
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            // TÍTULO DE ALERTA ATUALIZADO
-            .setContentTitle("🔥 Não quebre sua sequência!")
-            // TEXTO PERSUASIVO ATUALIZADO
-            .setContentText("Você ainda não registrou seu humor hoje. Entre agora para manter seu histórico!")
+            .setContentTitle(applicationContext.getString(R.string.notification_title))
+            .setContentText(applicationContext.getString(R.string.notification_text))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
         // ===================================
 
-        // O erro deve sumir agora com o @SuppressLint acima
         with(NotificationManagerCompat.from(applicationContext)) {
             notify(1001, builder.build())
         }

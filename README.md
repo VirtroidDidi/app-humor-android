@@ -232,9 +232,6 @@ Baixe a versão mais recente compilada e instale diretamente no seu dispositivo 
 
 
 
-
-
-
 <p align="center">
   Feito com ❤️ e Kotlin.
 </p>
