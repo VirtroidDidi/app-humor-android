@@ -6,7 +6,9 @@ import com.google.firebase.database.PropertyName
 import com.google.firebase.firestore.DocumentId
 import kotlinx.parcelize.Parcelize
 import kotlinx.parcelize.RawValue
+import androidx.annotation.Keep
 
+@Keep
 @Parcelize
 data class HumorNote(
     @DocumentId
@@ -21,6 +23,7 @@ data class HumorNote(
     val data: Map<String, @RawValue Any>? = null
 ) : Parcelable
 
+@Keep
 data class User(
     @DocumentId @get:Exclude val uid: String? = null,
     val nome: String? = null,

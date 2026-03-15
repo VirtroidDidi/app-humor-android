@@ -195,7 +195,7 @@ Você tem duas opções para testar o AppHumor:
 ### 📱 Opção 1: Testar o APK (Recomendado)
 Baixe a versão mais recente compilada e instale diretamente no seu dispositivo Android. Não requer configuração.
 
-<a href="LINK_DA_SUA_RELEASE_AQUI">
+<a href="https://github.com/VirtroidDidi/app-humor-android/releases/download/v1.0.0/app-release.apk">
   <img alt="Baixar APK" src="https://img.shields.io/badge/Download-APK%20(v1.0)-3DDC84?style=for-the-badge&logo=android&logoColor=white" />
 </a>
 
@@ -215,7 +215,7 @@ Baixe a versão mais recente compilada e instale diretamente no seu dispositivo 
 **Passo a Passo:**
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/VirtroidDidi/readme-app-humor.git](https://github.com/VirtroidDidi/readme-app-humor.git)
+   git clone [https://github.com/VirtroidDidi/app-humor-android](https://github.com/VirtroidDidi/app-humor-android)
    ```
 2. **Crie um projeto no [Console do Firebase](https://console.firebase.google.com/).**
 3. **Ative os produtos:**
