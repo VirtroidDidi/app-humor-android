@@ -14,11 +14,13 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.tasks.await
+import com.example.apphumor.utils.Constants.Firebase
 
 class DatabaseRepository(private val database: FirebaseDatabase) {
 
-    private val db = database.getReference("users")
-    private val TAG = "DatabaseRepository"
+    private val db = database.getReference(Firebase.USERS_REF)
+    private val TAG: String = "DatabaseRepository"
+
 
     sealed class Result<out T> {
         data class Success<out T>(val data: T) : Result<T>()
@@ -80,15 +82,15 @@ class DatabaseRepository(private val database: FirebaseDatabase) {
     }.flowOn(Dispatchers.IO) // Garante execução fora da Main Thread
 
     // --- ESCRITA OFFLINE-FIRST ---
-    suspend fun saveHumorNote(userId: String, note: HumorNote): Result<String> {
+    fun saveHumorNote(userId: String, note: HumorNote): Result<String> {
         return try {
-            val noteRef = db.child(userId).child("notes").push()
+            val noteRef = db.child(userId).child(Firebase.NOTES_REF).push()
             val newId = noteRef.key ?: throw Exception("Falha ao gerar chave.")
 
             val noteToSave = note.copy(id = newId, userId = userId, isSynced = false)
 
             noteRef.setValue(noteToSave).addOnSuccessListener {
-                noteRef.child("isSynced").setValue(true)
+                noteRef.child(Firebase.FIELD_IS_SYNCED).setValue(true)
             }
 
             Result.Success(newId)
@@ -109,7 +111,7 @@ class DatabaseRepository(private val database: FirebaseDatabase) {
         }
     }
 
-    suspend fun updateHumorNote(userId: String, note: HumorNote): Result<Unit> {
+    fun updateHumorNote(userId: String, note: HumorNote): Result<Unit> {
         return try {
             val noteId = note.id ?: throw Exception("ID nulo.")
 
@@ -127,7 +129,7 @@ class DatabaseRepository(private val database: FirebaseDatabase) {
     }
 
     // --- Outros Métodos ---
-    suspend fun saveUser(user: User): Result<Unit> {
+    fun saveUser(user: User): Result<Unit> {
         val uid = user.uid ?: return Result.Error(Exception("UID nulo"))
         return try {
             db.child(uid).setValue(user)
@@ -137,16 +139,16 @@ class DatabaseRepository(private val database: FirebaseDatabase) {
         }
     }
 
-    suspend fun updateUser(user: User): Result<Unit> {
+    fun updateUser(user: User): Result<Unit> {
         val uid = user.uid ?: return Result.Error(IllegalArgumentException("UID nulo."))
         return try {
             val updates = mapOf<String, Any?>(
-                "nome" to user.nome,
-                "idade" to user.idade,
-                "email" to user.email,
-                "notificacaoAtiva" to user.notificacaoAtiva,
-                "horarioNotificacao" to user.horarioNotificacao,
-                "fotoBase64" to user.fotoBase64
+                Firebase.USER_NAME to user.nome,
+                Firebase.USER_AGE to user.idade,
+                Firebase.USER_EMAIL to user.email,
+                Firebase.USER_NOTIF_ACTIVE to user.notificacaoAtiva,
+                Firebase.USER_NOTIF_TIME to user.horarioNotificacao,
+                Firebase.USER_PHOTO to user.fotoBase64
             )
             db.child(uid).updateChildren(updates)
             Result.Success(Unit)
@@ -172,7 +174,7 @@ class DatabaseRepository(private val database: FirebaseDatabase) {
                 val rawNote = child.getValue(HumorNote::class.java)
                 rawNote?.copy(id = child.key)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             emptyList()
         }
     }

@@ -19,6 +19,7 @@ import com.example.apphumor.viewmodel.SaveState
 import com.google.android.material.color.MaterialColors
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import com.example.apphumor.utils.Constants.Intent
 
 class AddHumorActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddHumorBinding
@@ -36,7 +37,7 @@ class AddHumorActivity : AppCompatActivity() {
             DependencyProvider.databaseRepository
         )
         viewModel = ViewModelProvider(this, factory)[AddHumorViewModel::class.java]
-        existingNote = intent.getParcelableExtra("EDIT_NOTE")
+        existingNote = intent.getParcelableExtra(Intent.EXTRA_EDIT_NOTE)
 
         setupChipGroup()
         setupSaveButton()

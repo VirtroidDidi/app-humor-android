@@ -27,10 +27,10 @@ import com.example.apphumor.utils.SwipeToDeleteCallback
 import com.example.apphumor.viewmodel.AppViewModelFactory
 import com.example.apphumor.viewmodel.HomeViewModel
 import com.google.android.material.snackbar.Snackbar
-// Imports Novos
 import android.util.Base64
 import android.graphics.BitmapFactory
 import java.util.Calendar
+import com.example.apphumor.utils.Constants
 
 class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
@@ -67,13 +67,12 @@ class HomeFragment : Fragment() {
         setupRecyclerView()
         setupButton()
         setupObservers()
-        setupHeader() // <--- NOVA CHAMADA PARA CONFIGURAR O TOPO
+        setupHeader()
     }
 
     // --- NOVA FUNÇÃO: Configura Saudação e Avatar ---
     // Substitua a função setupHeader antiga por esta versão com Cache
     private fun setupHeader() {
-        // 1. Saudação
         val calendar = Calendar.getInstance()
         val hour = calendar.get(Calendar.HOUR_OF_DAY)
         val greeting = when (hour) {
@@ -84,9 +83,9 @@ class HomeFragment : Fragment() {
         binding.tvGreeting.text = greeting
 
         // --- INÍCIO DO CACHE (A Mágica acontece aqui) ---
-        val prefs = requireContext().getSharedPreferences("user_cache", Context.MODE_PRIVATE)
-        val cachedName = prefs.getString("cached_name", null)
-        val cachedPhoto = prefs.getString("cached_photo", null)
+        val prefs = requireContext().getSharedPreferences(Constants.Prefs.CACHE_FILE_NAME, Context.MODE_PRIVATE)
+        val cachedName = prefs.getString(Constants.Prefs.KEY_CACHED_NAME, null)
+        val cachedPhoto = prefs.getString(Constants.Prefs.KEY_CACHED_PHOTO, null)
 
         // A. Se tiver dados salvos, MOSTRA AGORA (não espera a internet)
         if (cachedName != null) {
@@ -110,8 +109,7 @@ class HomeFragment : Fragment() {
                 val firstName = it.nome?.split(" ")?.firstOrNull() ?: "Visitante"
                 binding.tvUserName.text = "$firstName!"
 
-                // Salva o nome novo no cache
-                prefs.edit().putString("cached_name", firstName).apply()
+                prefs.edit().putString(Constants.Prefs.KEY_CACHED_NAME, firstName).apply()
 
                 if (!it.fotoBase64.isNullOrEmpty()) {
                     try {
@@ -120,7 +118,7 @@ class HomeFragment : Fragment() {
                         binding.ivUserAvatar.setImageBitmap(decodedImage)
 
                         // Salva a foto nova no cache
-                        prefs.edit().putString("cached_photo", it.fotoBase64).apply()
+                        prefs.edit().putString(Constants.Prefs.KEY_CACHED_PHOTO, it.fotoBase64).apply()
 
                     } catch (e: Exception) {
                         Log.e(TAG, "Erro ao decodificar avatar: ${e.message}")
@@ -146,7 +144,7 @@ class HomeFragment : Fragment() {
             onEditClick = { note ->
                 editedNoteId = note.id
                 val intent = Intent(requireActivity(), AddHumorActivity::class.java).apply {
-                    putExtra("EDIT_NOTE", note)
+                    putExtra(Constants.Intent.EXTRA_EDIT_NOTE, note)
                 }
                 startActivityForResult(intent, ADD_NOTE_REQUEST_CODE)
             }
