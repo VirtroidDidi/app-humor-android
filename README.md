@@ -80,9 +80,25 @@
   </tr>
 </table>
 
-## 🛠️ Arquitetura e Tech Stack
 
-O **AppHumor** foi construído seguindo os princípios da **Arquitetura Limpa** e o padrão **MVVM** (Model-View-ViewModel). Isso garante que a lógica de negócios (como o cálculo de insights) esteja separada da interface do usuário.
+---
+
+## 🛠️ Stack Tecnológica
+
+Para construir um app resiliente e moderno, utilizei as ferramentas padrão da indústria:
+
+* **Linguagem:** [Kotlin](https://kotlinlang.org/) (v2.0+) com foco em sintaxe expressiva e segurança de tipos.
+* **Arquitetura:** **MVVM (Model-View-ViewModel)** com o padrão **Repository**, garantindo separação de responsabilidades.
+* **Componentes Reativos:** **Coroutines & Flow** (especialmente `callbackFlow`) para lidar com fluxos de dados do Firebase de forma assíncrona.
+* **Banco de Dados & Auth:** **Firebase** (Realtime Database & Authentication) com persistência local habilitada para suporte offline.
+* **Processamento em Background:** **WorkManager** para garantir que os lembretes diários sejam entregues mesmo se o app for fechado.
+* **UI/UX:** **Material Design 3**, **ViewBinding** (para evitar `findViewById`), **Coil** (carregamento de imagens) e **Lottie** (animações interativas).
+* **Qualidade:** **Testes Unitários** com **JUnit 4**, **MockK** (para mocking de dependências) e **Coroutines Test**.
+* **Segurança & Build:** **Version Catalog (TOML)** para gestão centralizada de bibliotecas e **ProGuard/R8** para ofuscação e otimização do APK.
+
+---
+
+
 
 
 ### 📐 Diagrama de Fluxo de Dados
@@ -226,6 +242,28 @@ Baixe a versão mais recente compilada e instale diretamente no seu dispositivo 
     * Cole na pasta: `app/google-services.json`.
 5. **Compile e Rode:** Shift + F10 no Android Studio.
 </details>
+
+
+
+
+
+
+
+
+
+_____________
+
+## 🌱 Bastidores: O que aprendi construindo este app
+
+O AppHumor foi muito mais do que um exercício de código; foi onde eu realmente entendi como resolver problemas reais de desenvolvimento. Minha caminhada com ele foi assim:
+
+* **O Desafio de Começar Organizado:** No início, o maior desafio foi entender como separar as coisas. Aprendi a usar a arquitetura **MVVM** para que a tela do app não ficasse "pesada" com lógica de banco de dados, deixando tudo mais limpo.
+* **A "Mágica" do Offline:** Uma das minhas maiores descobertas foi o suporte offline. Eu queria que o usuário pudesse registrar seu humor mesmo no metrô ou sem sinal. Aprender a configurar o cache do Firebase e o `SharedPreferences` para o perfil foi um processo de muita leitura e testes.
+* **Cuidando dos Detalhes:** Aprendi que um bom app precisa ser amigável. Gastei um bom tempo entendendo como implementar **notificações agendadas** e como usar o **Lottie** para que a interface tivesse vida e não fosse apenas um formulário sem graça.
+* **Segurança e Entrega:** Pela primeira vez, lidei com a parte "final" do software: proteger o código com ProGuard e gerar um **APK assinado**. Entendi que o trabalho do desenvolvedor só acaba quando o app está pronto e seguro para ser instalado por qualquer pessoa.
+* **Melhoria Contínua:** No meio do caminho, percebi que muitas coisas podiam ser melhores. Refatorei códigos, centralizei constantes e aprendi a usar o **Version Catalog** para organizar as bibliotecas. Foi um exercício de paciência e cuidado com a qualidade do que estou entregando.
+
+
 
 
 
